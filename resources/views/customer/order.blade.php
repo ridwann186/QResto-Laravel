@@ -8,10 +8,13 @@
     <title>QResto - Menu</title>
 
     <style>
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
+            padding-bottom: 110px;
             font-family: Arial, sans-serif;
             background: #f7f7f7;
             color: #222;
@@ -28,7 +31,9 @@
             color: #f5a623;
         }
 
-        header p { color: #ddd; }
+        header p {
+            color: #ddd;
+        }
 
         .container {
             max-width: 1100px;
@@ -36,7 +41,9 @@
             padding: 0 18px;
         }
 
-        .table-info, .cart, .menu-card {
+        .table-info,
+        .cart,
+        .menu-card {
             background: white;
             border-radius: 13px;
             padding: 20px;
@@ -54,26 +61,28 @@
             gap: 18px;
         }
 
-        .menu-card { padding: 18px; }
+        .menu-card {
+            padding: 18px;
+        }
 
         .menu-icon {
-    height: 160px;
-    border-radius: 10px;
-    background: #fff1d6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 55px;
-    overflow: hidden;
-    margin-bottom: 12px;
-}
+            height: 160px;
+            border-radius: 10px;
+            background: #fff1d6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 55px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
 
-.menu-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-}
+        .menu-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
 
         .price {
             color: #d97706;
@@ -94,7 +103,10 @@
             margin-top: 10px;
         }
 
-        .cart { margin-top: 30px; }
+        .cart {
+            margin-top: 30px;
+            scroll-margin-top: 20px;
+        }
 
         .cart-item {
             display: flex;
@@ -105,7 +117,9 @@
             border-bottom: 1px solid #eee;
         }
 
-        .quantity button { background: #eee; }
+        .quantity button {
+            background: #eee;
+        }
 
         .total {
             display: flex;
@@ -123,45 +137,121 @@
             padding: 14px;
         }
 
-        .empty { color: #888; }
+        .checkout:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .empty {
+            color: #888;
+        }
+
         .search-box {
-    margin: 20px 0;
-}
+            margin: 20px 0;
+        }
 
-.search-box input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 15px;
-    outline: none;
-}
+        .search-box input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
 
-.search-box input:focus {
-    border-color: #f5a623;
-}
+        .search-box input:focus {
+            border-color: #f5a623;
+        }
 
-.filter-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 25px;
-}
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
 
-.filter-buttons button {
-    background: #eee;
-    color: #333;
-}
+        .filter-buttons button {
+            background: #eee;
+            color: #333;
+        }
 
-.filter-buttons button.active {
-    background: #f5a623;
-    color: #222;
-}
+        .filter-buttons button.active {
+            background: #f5a623;
+            color: #222;
+        }
 
-.menu-section.hidden,
-.menu-card.hidden {
-    display: none;
-}
+        .menu-section.hidden,
+        .menu-card.hidden {
+            display: none;
+        }
+
+        /* KERANJANG MELAYANG */
+
+        .cart-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            background: white;
+            padding: 14px 18px calc(14px + env(safe-area-inset-bottom));
+            box-shadow: 0 -4px 18px rgba(0,0,0,.12);
+            border-top: 1px solid #eee;
+        }
+
+        .cart-bar.visible {
+            display: block;
+        }
+
+        .cart-bar-inner {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .cart-bar-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .cart-bar-count {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .cart-bar-total {
+            font-size: 18px;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .cart-bar button {
+            background: #f5a623;
+            color: #222;
+            padding: 14px 20px;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 480px) {
+            .cart-bar {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .cart-bar-total {
+                font-size: 16px;
+            }
+
+            .cart-bar button {
+                padding: 13px 15px;
+                font-size: 13px;
+            }
+        }
     </style>
 </head>
 
@@ -181,184 +271,207 @@
     </div>
 
     <div class="search-box">
-    <input
-        type="text"
-        id="search-menu"
-        placeholder="Cari makanan atau minuman..."
-        oninput="filterMenus()"
-    >
-</div>
-
-<div class="filter-buttons">
-    <button class="active" onclick="setCategory('semua', this)">
-        Semua
-    </button>
-
-    <button onclick="setCategory('makanan', this)">
-        Makanan
-    </button>
-
-    <button onclick="setCategory('minuman', this)">
-        Minuman
-    </button>
-</div>
-    
-<section class="menu-section" data-section="makanan">
-    <h2>Menu Makanan</h2>
-
-    <div class="menu-list">
-        @forelse ($menus->where('category', 'makanan') as $menu)
-            <div class="menu-card"
-                data-category="makanan"
-                data-name="{{ strtolower($menu->name) }}">
-
-                <div class="menu-icon">
-    @if ($menu->image)
-        <img src="{{ asset('storage/' . $menu->image) }}"
-             alt="{{ $menu->name }}">
-    @else
-        🍽️
-    @endif
-</div>
-
-                <h3>{{ $menu->name }}</h3>
-                <p>{{ $menu->description }}</p>
-
-                <p class="price">
-                    Rp{{ number_format($menu->price, 0, ',', '.') }}
-                </p>
-
-                <button class="add-button"
-                    onclick="addToCart({{ $menu->id }})">
-                    + Tambah
-                </button>
-            </div>
-        @empty
-            <p>Belum ada menu makanan tersedia.</p>
-        @endforelse
-    </div>
-</section>
-
-<section class="menu-section" data-section="minuman">
-    <h2>Menu Minuman</h2>
-
-    <div class="menu-list">
-        @forelse ($menus->where('category', 'minuman') as $menu)
-            <div class="menu-card"
-                data-category="minuman"
-                data-name="{{ strtolower($menu->name) }}">
-                 
-                <div class="menu-icon">
-    @if ($menu->image)
-        <img src="{{ asset('storage/' . $menu->image) }}"
-             alt="{{ $menu->name }}">
-    @else
-        🥤
-    @endif
-</div>
-
-                <h3>{{ $menu->name }}</h3>
-                <p>{{ $menu->description }}</p>
-
-                <p class="price">
-                    Rp{{ number_format($menu->price, 0, ',', '.') }}
-                </p>
-
-                <button class="add-button"
-                    onclick="addToCart({{ $menu->id }})">
-                    + Tambah
-                </button>
-            </div>
-        @empty
-            <p>Belum ada menu minuman tersedia.</p>
-        @endforelse
-    </div>
-</section>
-
-
-        <div class="cart">
-
-    <h2>🛒 Keranjang Saya</h2>
-
-    <div id="cart-items">
-        <p class="empty">Belum ada menu yang dipilih.</p>
+        <input
+            type="text"
+            id="search-menu"
+            placeholder="Cari makanan atau minuman..."
+            oninput="filterMenus()"
+        >
     </div>
 
-    <div class="total">
-        <span>Total</span>
-        <span id="total">Rp0</span>
+    <div class="filter-buttons">
+        <button class="active" onclick="setCategory('semua', this)">
+            Semua
+        </button>
+
+        <button onclick="setCategory('makanan', this)">
+            Makanan
+        </button>
+
+        <button onclick="setCategory('minuman', this)">
+            Minuman
+        </button>
     </div>
 
-    <button class="checkout" onclick="checkout()">
-        Lanjut Checkout
-    </button>
+    <section class="menu-section" data-section="makanan">
+        <h2>Menu Makanan</h2>
+
+        <div class="menu-list">
+            @forelse ($menus->where('category', 'makanan') as $menu)
+                <div class="menu-card"
+                    data-category="makanan"
+                    data-name="{{ strtolower($menu->name) }}">
+
+                    <div class="menu-icon">
+                        @if ($menu->image)
+                            <img src="{{ asset('storage/' . $menu->image) }}"
+                                 alt="{{ $menu->name }}">
+                        @else
+                            🍽️
+                        @endif
+                    </div>
+
+                    <h3>{{ $menu->name }}</h3>
+                    <p>{{ $menu->description }}</p>
+
+                    <p class="price">
+                        Rp{{ number_format($menu->price, 0, ',', '.') }}
+                    </p>
+
+                    <button class="add-button"
+                        onclick="addToCart({{ $menu->id }})">
+                        + Tambah
+                    </button>
+                </div>
+            @empty
+                <p>Belum ada menu makanan tersedia.</p>
+            @endforelse
+        </div>
+    </section>
+
+    <section class="menu-section" data-section="minuman">
+        <h2>Menu Minuman</h2>
+
+        <div class="menu-list">
+            @forelse ($menus->where('category', 'minuman') as $menu)
+                <div class="menu-card"
+                    data-category="minuman"
+                    data-name="{{ strtolower($menu->name) }}">
+
+                    <div class="menu-icon">
+                        @if ($menu->image)
+                            <img src="{{ asset('storage/' . $menu->image) }}"
+                                 alt="{{ $menu->name }}">
+                        @else
+                            🥤
+                        @endif
+                    </div>
+
+                    <h3>{{ $menu->name }}</h3>
+                    <p>{{ $menu->description }}</p>
+
+                    <p class="price">
+                        Rp{{ number_format($menu->price, 0, ',', '.') }}
+                    </p>
+
+                    <button class="add-button"
+                        onclick="addToCart({{ $menu->id }})">
+                        + Tambah
+                    </button>
+                </div>
+            @empty
+                <p>Belum ada menu minuman tersedia.</p>
+            @endforelse
+        </div>
+    </section>
+
+    <!-- KERANJANG UTAMA -->
+    <div class="cart" id="cart">
+
+        <h2>🛒 Keranjang Saya</h2>
+
+        <div id="cart-items">
+            <p class="empty">Belum ada menu yang dipilih.</p>
+        </div>
+
+        <div class="total">
+            <span>Total</span>
+            <span id="total">Rp0</span>
+        </div>
+
+        <button class="checkout" onclick="checkout()">
+            Lanjut Checkout
+        </button>
+
+    </div>
 
 </div>
 
+<!-- KERANJANG MELAYANG DI BAWAH -->
+<div class="cart-bar" id="cart-bar">
+    <div class="cart-bar-inner">
+
+        <div class="cart-bar-info">
+            <span class="cart-bar-count" id="cart-bar-count">
+                0 item
+            </span>
+
+            <span class="cart-bar-total" id="cart-bar-total">
+                Rp0
+            </span>
+        </div>
+
+        <button onclick="goToCart()">
+            🛒 Lihat Keranjang
+        </button>
+
+    </div>
+</div>
 
 <script>
     const menus = {{ Illuminate\Support\Js::from(
-    $menus->map(function ($menu) {
-        return [
-            'id' => $menu->id,
-            'name' => $menu->name,
-            'price' => (float) $menu->price,
-        ];
-    })->values()
-) }};
+        $menus->map(function ($menu) {
+            return [
+                'id' => $menu->id,
+                'name' => $menu->name,
+                'price' => (float) $menu->price,
+            ];
+        })->values()
+    ) }};
 
     let cart = {};
 
-// FITUR FILTER DAN PENCARIAN MENU
-let selectedCategory = 'semua';
+    // FITUR FILTER DAN PENCARIAN MENU
 
-function setCategory(category, button) {
-    selectedCategory = category;
+    let selectedCategory = 'semua';
 
-    document.querySelectorAll('.filter-buttons button')
-        .forEach(btn => btn.classList.remove('active'));
+    function setCategory(category, button) {
+        selectedCategory = category;
 
-    button.classList.add('active');
+        document.querySelectorAll('.filter-buttons button')
+            .forEach(btn => btn.classList.remove('active'));
 
-    filterMenus();
-}
+        button.classList.add('active');
 
-function filterMenus() {
-    const keyword = document
-        .getElementById('search-menu')
-        .value.toLowerCase();
+        filterMenus();
+    }
 
-    document.querySelectorAll('.menu-card').forEach(card => {
-        const name = card.dataset.name;
-        const category = card.dataset.category;
+    function filterMenus() {
+        const keyword = document
+            .getElementById('search-menu')
+            .value.toLowerCase();
 
-        const matchName = name.includes(keyword);
+        document.querySelectorAll('.menu-card').forEach(card => {
+            const name = card.dataset.name;
+            const category = card.dataset.category;
 
-        const matchCategory =
-            selectedCategory === 'semua' ||
-            selectedCategory === category;
+            const matchName = name.includes(keyword);
 
-        card.classList.toggle(
-            'hidden',
-            !(matchName && matchCategory)
-        );
-    });
+            const matchCategory =
+                selectedCategory === 'semua' ||
+                selectedCategory === category;
 
-    document.querySelectorAll('.menu-section').forEach(section => {
-        const visibleCards = [
-            ...section.querySelectorAll('.menu-card')
-        ].some(card => !card.classList.contains('hidden'));
+            card.classList.toggle(
+                'hidden',
+                !(matchName && matchCategory)
+            );
+        });
 
-        section.classList.toggle('hidden', !visibleCards);
-    });
-}
+        document.querySelectorAll('.menu-section').forEach(section => {
+            const visibleCards = [
+                ...section.querySelectorAll('.menu-card')
+            ].some(card => !card.classList.contains('hidden'));
 
-// FITUR KERANJANG
-function addToCart(id) {
-    cart[id] = (cart[id] || 0) + 1;
-    renderCart();
-}
+            section.classList.toggle('hidden', !visibleCards);
+        });
+    }
 
+    // FITUR KERANJANG
+
+    function addToCart(id) {
+        cart[id] = (cart[id] || 0) + 1;
+        renderCart();
+    }
 
     function changeQuantity(id, amount) {
         cart[id] += amount;
@@ -394,6 +507,7 @@ function addToCart(id) {
             item.className = 'cart-item';
 
             const info = document.createElement('div');
+
             const name = document.createElement('strong');
             name.textContent = menu.name;
 
@@ -403,6 +517,7 @@ function addToCart(id) {
             info.append(name, price);
 
             const controls = document.createElement('div');
+            controls.className = 'quantity';
 
             const minus = document.createElement('button');
             minus.textContent = '-';
@@ -416,6 +531,7 @@ function addToCart(id) {
             plus.onclick = () => changeQuantity(id, 1);
 
             controls.append(minus, count, plus);
+
             item.append(info, controls);
             container.appendChild(item);
         }
@@ -425,70 +541,99 @@ function addToCart(id) {
                 '<p class="empty">Belum ada menu yang dipilih.</p>';
         }
 
+        // TOTAL KERANJANG UTAMA
         document.getElementById('total').textContent =
             formatRupiah(total);
-    }
 
-    async function checkout() {
-    const items = Object.keys(cart).map(id => ({
-        id: Number(id),
-        quantity: cart[id]
-    }));
-
-    if (items.length === 0) {
-        alert('Keranjang masih kosong!');
-        return;
-    }
-
-    const checkoutButton = document.querySelector('.checkout');
-
-    // Cegah checkout berkali-kali
-    checkoutButton.disabled = true;
-    checkoutButton.textContent = 'Memproses Pesanan...';
-
-    try {
-        const response = await fetch(
-            "{{ route('customer.checkout', $table->qr_token) }}",
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector(
-                        'meta[name="csrf-token"]'
-                    ).content
-                },
-                body: JSON.stringify({ items: items })
-            }
+        // UPDATE JUMLAH SELURUH ITEM
+        const itemCount = Object.values(cart).reduce(
+            (sum, quantity) => sum + quantity,
+            0
         );
 
-        if (response.redirected) {
-            window.location.href = response.url;
-            return;
-        }
+        // UPDATE KERANJANG MELAYANG
+        document.getElementById('cart-bar-count').textContent =
+            itemCount + ' item dalam keranjang';
 
-        const result = await response.json();
+        document.getElementById('cart-bar-total').textContent =
+            formatRupiah(total);
 
-        if (!response.ok) {
-            const message = result.errors
-                ? Object.values(result.errors).flat().join('\n')
-                : 'Checkout gagal. Silakan coba lagi.';
-
-            alert(message);
-            return;
-        }
-
-        alert('Pesanan berhasil dibuat!');
-
-    } catch (error) {
-        alert('Terjadi kesalahan koneksi. Silakan coba lagi.');
-
-    } finally {
-        checkoutButton.disabled = false;
-        checkoutButton.textContent = 'Lanjut Checkout';
+        // TAMPILKAN KERANJANG JIKA ADA PESANAN
+        document.getElementById('cart-bar').classList.toggle(
+            'visible',
+            itemCount > 0
+        );
     }
-}
 
+    // TOMBOL LIHAT KERANJANG
+    function goToCart() {
+        document.getElementById('cart').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+
+    // FITUR CHECKOUT
+
+    async function checkout() {
+        const items = Object.keys(cart).map(id => ({
+            id: Number(id),
+            quantity: cart[id]
+        }));
+
+        if (items.length === 0) {
+            alert('Keranjang masih kosong!');
+            return;
+        }
+
+        const checkoutButton = document.querySelector('.checkout');
+
+        // Cegah checkout berkali-kali
+        checkoutButton.disabled = true;
+        checkoutButton.textContent = 'Memproses Pesanan...';
+
+        try {
+            const response = await fetch(
+                "{{ route('customer.checkout', $table->qr_token) }}",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector(
+                            'meta[name="csrf-token"]'
+                        ).content
+                    },
+                    body: JSON.stringify({ items: items })
+                }
+            );
+
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                const message = result.errors
+                    ? Object.values(result.errors).flat().join('\n')
+                    : 'Checkout gagal. Silakan coba lagi.';
+
+                alert(message);
+                return;
+            }
+
+            alert('Pesanan berhasil dibuat!');
+
+        } catch (error) {
+            alert('Terjadi kesalahan koneksi. Silakan coba lagi.');
+
+        } finally {
+            checkoutButton.disabled = false;
+            checkoutButton.textContent = 'Lanjut Checkout';
+        }
+    }
 </script>
 
 </body>
